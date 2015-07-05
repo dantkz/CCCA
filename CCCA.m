@@ -123,11 +123,19 @@ classdef CCCA
         end
     
         function obj = SetInput(obj, inp)    
-            if isempty(obj.options.sel) ...
-                || max(obj.options.sel)>numel(inp.Xs) ...
-                || numel(inp.Xs)~=numel(inp.context) ...
+            if numel(inp.Xs)~=numel(inp.context) ...
                 || numel(inp.Xs)~=numel(inp.masks)
-                error('Error in SetInput!');
+                error('Error in SetInput! Different number of elements in input.Xs, input.context and input.masks!');
+            end
+
+            if ~any(strcmp(properties(obj), 'options')) ...
+                || ~isfield(obj.options, 'sel') ...
+                || isempty(obj.options.sel)
+                obj.options.sel = 1:numel(inp.Xs);
+            end
+
+            if max(obj.options.sel)>numel(inp.Xs) || min(obj.options.sel)<1
+                error('Error with options.sel!');
             end
 
             obj.Xs = inp.Xs(obj.options.sel);
@@ -199,16 +207,20 @@ classdef CCCA
             dataset.Xs = cell(1,numel(obj.Xs));
 
             for i=1:numel(obj.Xs)
-            %for i=1:1
                 observedmask = logical(zeros(obj.img_size));
                 halfmask = logical(zeros(obj.img_size));
                 fullmask = reshape(obj.masks{i}, obj.img_size);
                 [yy xx] = find(fullmask);
                 xmax = max(xx); xmin = min(xx);
 
-                %halfmask(:,1:round(xmin+(xmax-xmin)/2)) = 1; % Used for elephants
+                % Inpaint Target
+
+                % Used for elephants:
+                %halfmask(:,1:round(xmin+(xmax-xmin)/2)) = 1; 
+                % Inpaint RHS
                 halfmask(:,1:round(xmax/2)) = 1;
-                %halfmask(:,round(xmax/2):end) = 1;
+                % Inpaint LHS
+                %halfmask(:,round(xmax/2):end) = 1; 
 
                 observedmask(halfmask) = fullmask(halfmask);
                 selection = observedmask(fullmask);
