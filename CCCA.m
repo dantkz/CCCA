@@ -77,33 +77,6 @@ classdef CCCA
                 obj = obj.SaveAppTransImages(walktargets);
                 walktargets = [8 7 463 486 96];
                 obj = obj.SaveAppTransImages(walktargets); 
-            elseif 295==295
-                %walktargets = [126 1 12 106 100 102 105];
-                %obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [32 20 26 31 35 56];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [35 104 22 33 38 52];
-                obj = obj.SaveAppTransImages(walktargets);
-
-                walktargets = [153 1 110 125 128 133 151];
-                obj = obj.SaveAppTransImages(walktargets); 
-                walktargets = [159 1 110 125 128 133 151];
-                obj = obj.SaveAppTransImages(walktargets); 
-                walktargets = [161 1 110 125 128 133 151];
-                obj = obj.SaveAppTransImages(walktargets); 
-                walktargets = [167 1 110 125 128 133 151];
-                obj = obj.SaveAppTransImages(walktargets); 
-                walktargets = [177 1 110 125 128 133 151];
-                obj = obj.SaveAppTransImages(walktargets); 
-                walktargets = [179 1 110 125 128 133 151];
-                obj = obj.SaveAppTransImages(walktargets); 
-                walktargets = [106 1 110 125 128 133 151];
-                obj = obj.SaveAppTransImages(walktargets); 
-                walktargets = [200 1 110 125 128 133 151];
-                obj = obj.SaveAppTransImages(walktargets); 
-            end
-
-            system(['mv Result Walk__' target]);
         end
         
     end
@@ -177,7 +150,7 @@ classdef CCCA
                     Y = (obj.A{i}*thetamat*[1; obj.h{i}(:)]);
 
                     Yimg = get_visualization(Y, obj.masks{i}, obj.img_size, [0 1], 0, 1, obj.colR{i}, obj.colt{i});
-                    Xsimg= get_visualization(obj.X{i}, obj.masks{i}, obj.img_size, [0 1], 0, 1, obj.colR{i}, obj.colt{i});
+                    Xsimg= get_visualization(obj.Xs{i}, obj.masks{i}, obj.img_size, [0 1], 0, 1);
 
                     imwrite(Yimg, ['Result/rec' num2str(i) '.png'], 'png');
                     imwrite(Xsimg, ['Result/src' num2str(i) '.png'], 'png');
@@ -200,7 +173,7 @@ classdef CCCA
             end
         end
 
-        function [obj dataset] = GetInpaintTargets(obj)
+        function [obj dataset] = GetInpaintTargets(obj, inptarget)
             dataset.img_size = obj.img_size;
             dataset.masks = cell(1,numel(obj.masks));
             dataset.context = cell(1,numel(obj.context));
@@ -214,13 +187,16 @@ classdef CCCA
                 xmax = max(xx); xmin = min(xx);
 
                 % Inpaint Target
-
-                % Used for elephants:
-                %halfmask(:,1:round(xmin+(xmax-xmin)/2)) = 1; 
-                % Inpaint RHS
-                halfmask(:,1:round(xmax/2)) = 1;
-                % Inpaint LHS
-                %halfmask(:,round(xmax/2):end) = 1; 
+                if inptarget==1
+                    % Inpaint RHS
+                    halfmask(:,1:round(xmax/2)) = 1;
+                elseif inptarget==2
+                    % Used for elephants:
+                    halfmask(:,1:round(xmin+(xmax-xmin)/2)) = 1; 
+                else
+                    % Inpaint LHS
+                    halfmask(:,round(xmax/2):end) = 1; 
+                end
 
                 observedmask(halfmask) = fullmask(halfmask);
                 selection = observedmask(fullmask);
@@ -230,7 +206,7 @@ classdef CCCA
 
                 observedXs = obj.Xs{i}(selection,:);
 
-                dataset.masks{i} = observedmask;
+                dataset.masks{i} = observedmask(:);
                 dataset.context{i} = observedcontext;
                 dataset.Xs{i} = observedXs;
             end
@@ -256,7 +232,7 @@ classdef CCCA
                 Y = (obj.A{i}*thetamat*[1; obj.h{i}(:)]);
 
                 Yimg = get_visualization(Y, obj.masks{i}, obj.img_size, [0 1], 0, 1, obj.colR{i}, obj.colt{i});
-                Xsimg = get_visualization(obj.X{i}, obj.masks{i}, obj.img_size, [0 1], 0, 1, obj.colR{i}, obj.colt{i});
+                Xsimg = get_visualization(obj.Xs{i}, obj.masks{i}, obj.img_size, [0 1], 0, 1);
                 
                 fixY = (obj.A{i}*thetamat*[1; fh(:)]);
                 fixYimg = get_visualization(fixY, obj.masks{i}, obj.img_size, [0 1], 0, 1, fcolR, fcolt);
