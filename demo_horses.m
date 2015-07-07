@@ -1,4 +1,7 @@
-
+datafile = 'horse_data/horse_data_rgb.mat';
+if exist(datafile, 'file')~=2
+    prep_dataset();
+end
 
 %% Parameters and Options
 parameters.F = 4; % Number of components
@@ -11,7 +14,7 @@ options.iterN = 3;
 options.sel = 1:32; % The indices of the data that are used for learning or fitting
 
 %% Input dataset
-input = load('horse_data/horse_data_rgb.mat');
+input = load(datafile);
 
 %% Learning the model
 
