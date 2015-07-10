@@ -1,16 +1,16 @@
-datafile = 'elephant_data/elephant_data_rgb.mat';
+datafile = 'facade_data/facade_data_rgb.mat';
 if exist(datafile, 'file')~=2
-    prep_dataset('elephant');
+    prep_dataset('facade');
 end
 
 %%
-trainsel = 1:200; % The indices of the data that are used for learning the model
-testsel = 1:275; % The indices of the data that are used to test the model
+trainsel = 1:80; % The indices of the data that are used for learning the model
+testsel = 1:104; % The indices of the data that are used to test the model
 
 %% Parameters and Options
 parameters.F = 20; % Number of components
 parameters.K = 16; % Number of nearest neighbours
-parameters.M = 3000; % Number of prototype context vectors Z
+parameters.M = 2000; % Number of prototype context vectors Z
 parameters.meancontext = []; % Estimate from training data
 parameters.stdcontext = []; % Estimate from training data 
 
@@ -21,7 +21,6 @@ options.sel = trainsel; % The indices of the data that are used for learning or 
 input = load(datafile);
 
 %% Learning the model
-
 obj = CCCA();
 obj = obj.SetParameters(parameters);
 obj = obj.SetOptions(options);
@@ -59,8 +58,8 @@ disp(['Test error: ' num2str(test_ave_score) ' +- ' num2str(test_std_score)]);
 
 
 %% Appearance Transfer from sources{i} to targetss{i}.
-sources = {126, 32, 35};
-targetss = {[1 12 106 100 102 105], [20 26 31 35 56], [104 22 33 38 52]};
+sources = {1};
+targetss = {[2 3 4 5]};
 for i = 1:numel(sources)
     source = sources{i};
     targets = targetss{i};

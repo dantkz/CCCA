@@ -3,21 +3,24 @@ if exist(datafile, 'file')~=2
     prep_dataset('horse');
 end
 
+%%
+trainsel = 1:200; % The indices of the data that are used for learning the model
+testsel = 1:295; % The indices of the data that are used to test the model
+
 %% Parameters and Options
-parameters.F = 4; % Number of components
-parameters.K = 8; % Number of nearest neighbours
-parameters.M = 2500; % Number of prototype context vectors Z
+parameters.F = 24; % Number of components
+parameters.K = 16; % Number of nearest neighbours
+parameters.M = 2000; % Number of prototype context vectors Z
 parameters.meancontext = []; % Estimate from training data
 parameters.stdcontext = []; % Estimate from training data 
 
-options.iterN = 3;
-options.sel = 1:32; % The indices of the data that are used for learning or fitting
+options.iterN = 20;
+options.sel = trainsel; 
 
 %% Input dataset
 input = load(datafile);
 
 %% Learning the model
-
 obj = CCCA();
 obj = obj.SetParameters(parameters);
 obj = obj.SetOptions(options);
@@ -33,7 +36,7 @@ system(['mv Result Result_' stamp]);
 save(['model_' stamp '.mat'], 'obj', '-v7.3');
 
 %% Reconstruction of the Training and Test sets
-options.sel = 1:126;
+options.sel = testsel;
 obj = obj.SetOptions(options);
 obj = obj.SetInput(input);
 obj = obj.ComputeAllA();
@@ -42,6 +45,16 @@ obj = obj.Fit();
 
 [obj error_score] = obj.SaveImages();
 system(['mv Result Reconstruction_' stamp]);
+
+%% Compute Errors
+aveerror = error_score(:,1)./error_score(:,2);
+training_ave_score = mean(aveerror(trainsel));
+training_std_score = std(aveerror(trainsel));
+test_ave_score = mean(aveerror(setdiff(testsel, trainsel)));
+test_std_score = std(aveerror(setdiff(testsel, trainsel)));
+disp(['Training error: ' num2str(training_ave_score) ' +- ' num2str(training_std_score)]);
+disp(['Test error: ' num2str(test_ave_score) ' +- ' num2str(test_std_score)]);
+
 
 %% Appearance Transfer from sources{i} to targetss{i}.
 sources = {126, 32, 35};
