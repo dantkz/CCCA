@@ -20,13 +20,13 @@ The context vectors of the datasets are computed in "prep_dataset.m" file. Pleas
 
 For elephants, please download "UCL Parts Dataset" from: 
 http://visual.cs.ucl.ac.uk/pubs/ccca/
-
+If you use images of elephants, please cite the paper mentioned in the header.
 
 For horses, please download "UCL Parts Dataset" from: 
 http://visual.cs.ucl.ac.uk/pubs/ccca/
 The images of horses from the dataset are from "Weizmann Horse Database". So, if you use the images or segmentations of horses, cite one of the papers listed in:
 http://www.msri.org/people/members/eranb/
-
+If you use part labels of the horses, please cite the paper mentioned in the header.
 
 For cats, please download "PASCAL-Part Dataset" from:
 http://www.stat.ucla.edu/~xianjie.chen/pascal_part_dataset/pascal_part.html
