@@ -1,6 +1,6 @@
 datafile = 'elephant_data/elephant_data_rgb.mat';
 if exist(datafile, 'file')~=2
-    prep_dataset();
+    prep_dataset('elephant');
 end
 
 %% Parameters and Options

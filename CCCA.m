@@ -33,54 +33,6 @@ classdef CCCA
         colt                        % translation vectors
     end
 
-    methods(Static = true)
-
-        function Walk()
-            
-            if 485>485
-                walktargets = [126 1 12 106 100 102 105];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [32 20 26 31 35 56];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [35 104 22 33 38 52];
-                obj = obj.SaveAppTransImages(walktargets);
-                
-                walktargets = [7 8 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [393 8 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [443 8 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [446 8 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [208 8 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [539 8 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [90 8 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [10 8 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [105 8 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [107 8 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [128 8 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [265 8 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [354 8 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [381 8 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [96 8 463 486];
-                obj = obj.SaveAppTransImages(walktargets);
-                walktargets = [8 7 463 486 96];
-                obj = obj.SaveAppTransImages(walktargets); 
-        end
-        
-    end
-
     methods(Static = false)
 
         function obj = CCCA()

@@ -1,6 +1,6 @@
 datafile = 'horse_data/horse_data_rgb.mat';
 if exist(datafile, 'file')~=2
-    prep_dataset();
+    prep_dataset('horse');
 end
 
 %% Parameters and Options
