@@ -310,6 +310,10 @@ function [imgsdir instmaskdir partsdir] = get_images_from_pascal_voc(category_pa
                 end
             end
             
+            if idx==413
+                keyboard;
+            end
+            
             %% Filter based on size, eye visibility, etc.
             for jj=1:numel(instances.id)
                 if (instances.size_of(jj)>7000) && instances.has_eyes(jj)==1
@@ -323,10 +327,8 @@ function [imgsdir instmaskdir partsdir] = get_images_from_pascal_voc(category_pa
                     % border of at least 20%
                     width = round(width*1.2); height = round(height*1.2);
                     minxx = max(1,round(center_x-width/2));
-                    maxxx = min(size(curinst, 2), round(center_x+width/2));
                     minyy = max(1,round(center_y-height/2));
-                    maxyy = min(size(curinst, 1), round(center_y+height/2));
-                    bbox = [minxx, minyy, maxxx-minxx+1, maxyy-minyy+1];
+                    bbox = [minxx, minyy, width, height];
 
                     cur_img = img; 
                     cur_img = imcrop(cur_img, bbox);
@@ -367,7 +369,7 @@ function [imgsdir instmaskdir partsdir] = get_images_from_pascal_voc(category_pa
                         imwrite(cur_inst_mask, [instmaskdir idxname '.png']);
                         imwrite(cur_part_mask, [partsdir idxname '.png']);
 
-                        idx = idx+1;
+                        idx = idx+1;                       
                     end
                 end
             end

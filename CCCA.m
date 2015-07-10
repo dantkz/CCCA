@@ -143,7 +143,7 @@ classdef CCCA
                     % Inpaint RHS
                     halfmask(:,1:round(xmax/2)) = 1;
                 elseif inptarget==2
-                    % Used for elephants:
+                    % Used for elephants, cats and facades:
                     halfmask(:,1:round(xmin+(xmax-xmin)/2)) = 1; 
                 else
                     % Inpaint LHS
