@@ -92,10 +92,10 @@ function prep_dataset_cats()
     masksdir = 'cat_data/cat_trainval/instmask/';
     partsdir = 'cat_data/cat_trainval/partmask/';
     
-    [imgsdir masksdir partsdir] = get_images_from_pascal_voc(category_path, anno_path, img_path, target, target_cls, output_folder);
+    [imgsdir masksdir partsdir] = get_images_from_pascal_parts(category_path, anno_path, img_path, target, target_cls, output_folder);
 
     filtsize = 45;
-    get_context_from_pascal_voc(imgsdir, masksdir, partsdir, filtsize, filename);
+    get_context_from_pascal_parts(imgsdir, masksdir, partsdir, filtsize, filename);
 end
 
 function prep_dataset_facades()
@@ -254,7 +254,7 @@ function F=makeFilters(SUP)
 end
 
 
-function [imgsdir instmaskdir partsdir] = get_images_from_pascal_voc(category_path, anno_path, img_path, target, target_cls, output_folder)
+function [imgsdir instmaskdir partsdir] = get_images_from_pascal_parts(category_path, anno_path, img_path, target, target_cls, output_folder)
     category = [category_path target '.txt'];
 
     fio = fopen(category);
@@ -386,7 +386,7 @@ function [imgsdir instmaskdir partsdir] = get_images_from_pascal_voc(category_pa
     end
 end
 
-function get_context_from_pascal_voc(imgsdir, instmaskdir, partmaskdir, filtsize, filename)
+function get_context_from_pascal_parts(imgsdir, instmaskdir, partmaskdir, filtsize, filename)
 
     imgsnames = dir([imgsdir '*.png']);
     sizes = cell(1,numel(imgsnames));
